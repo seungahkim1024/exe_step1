@@ -4,7 +4,7 @@ cust.permission = (()=>{
 		$.getScript($.js()+'/component/compo.js')
 		.done(()=>{
 			$('#right_content').html(compo.cust_login_form());
-			$('#nav').html(compo.navi());
+			
 		})
 		.fail(()=>{
 			alert('component/compo.js의 로그인을 찾지 못했습니다.');

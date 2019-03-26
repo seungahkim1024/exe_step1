@@ -21,7 +21,7 @@
 	<mvc:annotation-driven />
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	<context:component-scan base-package="com.bit_etland.web" />
+	<context:component-scan base-package="com.bit_etland.web.cmm" />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
@@ -39,7 +39,7 @@
 		<property name="username" value="mariadb"/>
 		<property name="password" value="mariadb"/>
 	</bean>
-	<!-- <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!-- 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="mapperLocations" value="classpath:com/bit_etland/web/mapper/*Mapper.xml"/>
 	</bean>
