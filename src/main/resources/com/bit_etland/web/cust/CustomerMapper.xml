@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit_etland.web.mapper.CustomerMapper">
+  <select id="selectCustomer" resultType="com.bit_etland.web.cust.Customer"> <!-- resultType은 리턴타입이 있을 때 준다. -->
+	SELECT
+		CUSTOMER_ID customerID,
+		PASSWORD password,
+		CUSTOMER_NAME customerName,
+		SSN ssn,
+		ADDRESS address,
+		CITY city,
+		POSTAL_CODE postalCode,
+		PHONE phone,
+		PHOTO photo
+	FROM CUSTOMERS
+	WHERE CUSTOMER_ID LIKE #{customerID}
+	AND PASSWORD LIKE #{password} <!-- #은 ?와 같은 느낌. -->
+  </select>
+  <insert
+		  id="insertCustomer"
+		  parameterType="com.bit_etland.web.cust.Customer"
+		  flushCache="true"
+		  statementType="PREPARED"
+		  timeout="20">
+	INSERT INTO CUSTOMERS (CUSTOMER_ID, 
+	       	PASSWORD, 
+	       	CUSTOMER_NAME, 
+	       	SSN, 
+	       	ADDRESS, 
+	       	CITY, 
+	       	POSTAL_CODE, 
+	       	PHONE) 
+	VALUES (#{customerID}, 
+	       	#{password}, 
+	       	#{customerName},
+	       	#{SSN}, 
+	       	#{address}, 
+	       	#{city}, 
+	       	#{postalCode}, 
+	       	#{phone})
+  </insert>
+  <update
+		  id="updateCustomer"
+		  parameterType="com.bit_etland.web.cust.Customer"
+		  flushCache="true"
+		  statementType="PREPARED"
+		  timeout="20">
+			UPDATE CUSTOMERS
+			SET PASSWORD = #{password}, PHONE = #{phone}, CITY = #{city}, 
+				ADDRESS = #{address}, POSTAL_CODE = #{postalCode}
+			WHERE CUSTOMER_ID LIKE #{customerID}
+
+  </update>
+  <delete
+		  id="deleteCustomer"
+		  parameterType="com.bit_etland.web.cust.Customer"
+		  flushCache="true"
+		  statementType="PREPARED"
+		  timeout="20">
+			DELETE FROM CUSTOMERS 
+			WHERE CUSTOMER_ID, PASSWORD
+			LIKE #{customerID} AND #{password}
+  </delete>
+</mapper>
