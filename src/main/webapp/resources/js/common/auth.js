@@ -93,10 +93,5 @@ auth = (()=>{
 	let join =()=>{};
 	let register =()=>{};
 	let access =()=>{};
-	let mypage =()=>{
-		$(r_cnt).empty();
-		$(compo.cust_mypage())
-		.appendTo(r_cnt);
-	};
 	return {init:init};
 })();
