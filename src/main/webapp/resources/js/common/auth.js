@@ -15,10 +15,11 @@ auth = (()=>{
 	let setContentView=()=>{
 		$.getScript(compojs)
 		.done(()=>{
-			$(r_cnt).empty();
-			$(compo.cust_login_form())
-	          .appendTo(r_cnt);
-	          login();
+			$(r_cnt).html(compo.cust_login_form());
+	         $('form button[type=submit]').click(e=>{
+	        	  e.preventDefault();
+	        	  login();
+	          });
 	          
 			$(l_cnt+' ul.nav').empty();
 			let arr=[
@@ -38,7 +39,10 @@ auth = (()=>{
 						$(r_cnt).empty();
 						$(compo.cust_login_form())
 						.appendTo(r_cnt);
-						login();
+						 $('form button[type=submit]').click(e=>{
+				        	  e.preventDefault();
+				        	  login();
+				          });
 						break;
 					case 'join': 
 						$(r_cnt).empty();
@@ -64,7 +68,6 @@ auth = (()=>{
 		});
 	};
 		let login=()=>{
-			$('form button[type=submit]').click(e=>{
 				let data = {
 						customerID:$('form input[name=uname]').val(),
 						password:$('form input[name=psw]').val()};
@@ -78,8 +81,7 @@ auth = (()=>{
 						if(d.customerID!==''){
 							alert('성공 '+d.customerID);
 							$(r_cnt).empty();
-							$(compo.cust_mypage())
-							.appendTo(r_cnt);
+							$(r_cnt).html(compo.cust_mypage());
 						}else{
 							alert('로그인 실패'+d.customerID);
 						}
@@ -88,7 +90,6 @@ auth = (()=>{
 						alert('실패');
 					}
 				});
-			});
 		};
 	let join =()=>{};
 	let register =()=>{};
