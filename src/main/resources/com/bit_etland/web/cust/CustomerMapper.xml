@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bit_etland.web.mapper.CustomerMapper">
+<mapper namespace="com.bit_etland.web.cust.CustomerMapper">
   <select id="selectCustomer" resultType="com.bit_etland.web.cust.Customer"> <!-- resultType은 리턴타입이 있을 때 준다. -->
 	SELECT
 		CUSTOMER_ID customerID,
@@ -16,8 +16,11 @@
 		PHOTO photo
 	FROM CUSTOMERS
 	WHERE CUSTOMER_ID LIKE #{customerID}
-	AND PASSWORD LIKE #{password} <!-- #은 ?와 같은 느낌. -->
+		<if test="password != null">
+			AND PASSWORD LIKE #{password} <!-- #은 ?와 같은 느낌. -->
+		</if>
   </select>
+  
   <insert
 		  id="insertCustomer"
 		  parameterType="com.bit_etland.web.cust.Customer"

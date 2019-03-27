@@ -7,7 +7,6 @@ auth = (()=>{
         compojs = js+'/component/compo.js';
         r_cnt = '#right_content';
         l_cnt = '#left_content';
-        
 		onCreate();
 	};
 	let onCreate=()=>{
@@ -18,9 +17,10 @@ auth = (()=>{
 		.done(()=>{
 			$(r_cnt).empty();
 			$(compo.cust_login_form())
-              .appendTo(r_cnt);
+	          .appendTo(r_cnt);
+	          login();
+	          
 			$(l_cnt+' ul.nav').empty();
-			login();
 			let arr=[
 				{navi : '로그인', name : 'login'},
 				{navi : '회원가입', name : 'join'},
@@ -35,7 +35,6 @@ auth = (()=>{
 					let that = $(this).attr('name');
 					switch(that){
 					case 'login': 
-						alert('auth login!');
 						$(r_cnt).empty();
 						$(compo.cust_login_form())
 						.appendTo(r_cnt);
@@ -76,7 +75,14 @@ auth = (()=>{
 					dataType : 'json',
 					contentType : "application/json",
 					success : d=>{
-						alert('성공'+d.customerID);
+						if(d.customerID!==''){
+							alert('성공 '+d.customerID);
+							$(r_cnt).empty();
+							$(compo.cust_mypage())
+							.appendTo(r_cnt);
+						}else{
+							alert('로그인 실패'+d.customerID);
+						}
 					},
 					error : e=>{
 						alert('실패');
@@ -87,6 +93,10 @@ auth = (()=>{
 	let join =()=>{};
 	let register =()=>{};
 	let access =()=>{};
+	let mypage =()=>{
+		$(r_cnt).empty();
+		$(compo.cust_mypage())
+		.appendTo(r_cnt);
+	};
 	return {init:init};
-	
 })();

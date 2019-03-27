@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bit_etland.web.cmm.IFunction;
 import com.bit_etland.web.cmm.PrintService;
 
 @RestController
@@ -17,12 +18,18 @@ public class CustController {
 
 	@Autowired Customer cust;
 	@Autowired PrintService ps;
+	@Autowired CustomerMapper custMap;
 	@PostMapping("/login")
 	public Customer login(@RequestBody Customer param) { //Customer 앞에 @Response Body 디폴트(@RestController 때문에)
 		logger.info("===== login진입 =====");
-		ps.accept(param.toString());
-		
-		return param;
+		return (Customer)(new IFunction() {
+			
+			@Override
+			public Object apply(Object o) {
+				// TODO Auto-generated method stub
+				return custMap.selectCustomer(param);
+			}
+		}).apply(param);
 	}
 	
 	
