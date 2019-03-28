@@ -38,7 +38,7 @@
 	VALUES (#{customerID}, 
 	       	#{password}, 
 	       	#{customerName},
-	       	#{SSN}, 
+	       	#{ssn}, 
 	       	#{address}, 
 	       	#{city}, 
 	       	#{postalCode}, 
@@ -62,8 +62,11 @@
 		  flushCache="true"
 		  statementType="PREPARED"
 		  timeout="20">
-			DELETE FROM CUSTOMERS 
+			<!-- DELETE FROM CUSTOMERS 
 			WHERE CUSTOMER_ID, PASSWORD
-			LIKE #{customerID} AND #{password}
+			LIKE #{customerID} AND #{password} -->
+			DELETE FROM CUSTOMERS 
+			WHERE CUSTOMER_ID 
+			LIKE #{customerID}
   </delete>
 </mapper>

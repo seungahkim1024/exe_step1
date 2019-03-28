@@ -1,28 +1,26 @@
 var cust = cust || {}
-cust.permission = (()=>{
-	let login =()=>{
-		$.getScript($.js()+'/component/compo.js')
-		.done(()=>{
-			$('#right_content').html(compo.cust_login_form());
-			
-		})
-		.fail(()=>{
-			alert('component/compo.js의 로그인을 찾지 못했습니다.');
-		});
+cust = (()=>{
+	 let _,js,compojs,r_cnt, l_cnt;
+	let init =()=>{
+		 _ = $.ctx();
+	        js = $.js();
+	        compojs = js+'/component/compo.js';
+	        r_cnt = '#right_content';
+	        l_cnt = '#left_content';
+		onCreate();
 	};
-	let join =()=>{
-		$.getScript($.js()+'/component/compo.js')
-		.done(()=>{
-			
-		})
-		.fail(()=>{
-			alert('component/compo.js의 조인을 찾지 못했습니다.');
-		})
+	let onCreate =()=>{
+		setContentView();
 	};
-	let mypage =()=>{};
-	return {
-		login : login,
-		join : join,
-		mypage : mypage
+	let setContentView =()=>{
+		mypage();
 	};
+	
+	let mypage =()=>{
+		$.getScript(compojs);
+		$(r_cnt).html(compo.cust_mypage());
+	};
+	return {init : init}
 })();
+
+ 

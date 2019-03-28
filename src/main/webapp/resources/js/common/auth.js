@@ -13,8 +13,7 @@ auth = (()=>{
 		setContentView();
 	};
 	let setContentView=()=>{
-		$.getScript(compojs)
-		.done(()=>{
+		$.getScript(compojs,()=>{
 			$(r_cnt).html(compo.cust_login_form());
 	         $('form button[type=submit]').click(e=>{
 	        	  e.preventDefault();
@@ -25,6 +24,7 @@ auth = (()=>{
 			let arr=[
 				{navi : '로그인', name : 'login'},
 				{navi : '회원가입', name : 'join'},
+				{navi : '회원탈퇴', name : 'delete'},
 				{navi : '사원등록', name : 'register'},
 				{navi : '사원접속', name : 'access'}
 			]
@@ -48,6 +48,10 @@ auth = (()=>{
 						$(r_cnt).empty();
 						$(compo.cust_form())
 						.appendTo(r_cnt);
+						 $('form button[type=submit]').click(e=>{
+				        	  e.preventDefault();
+				        	  join();
+				          });
 						break;
 					case 'register': 
 						$(r_cnt).empty();
@@ -58,6 +62,15 @@ auth = (()=>{
 						$(r_cnt).empty();
 						$(compo.emp_access_form())
 						.appendTo(r_cnt);
+						break;
+					case 'delete':
+						$(r_cnt).empty();
+						$(compo.cust_delete_form())
+						.appendTo(r_cnt);
+						 $('form button[type=submit]').click(e=>{
+				        	  e.preventDefault();
+				        	  delete_cust();
+				          });
 						break;
 					}
 				});
@@ -72,7 +85,7 @@ auth = (()=>{
 						customerID:$('form input[name=uname]').val(),
 						password:$('form input[name=psw]').val()};
 				$.ajax({
-					url : _+'/cust/login',
+					url : _+'/users/login',
 					type : 'POST', // @RequestBody 를 찾지 못하면 jackson 이 미설치된 것임
 					data : JSON.stringify(data),
 					dataType : 'json',
@@ -80,8 +93,7 @@ auth = (()=>{
 					success : d=>{
 						if(d.customerID!==''){
 							alert('성공 '+d.customerID);
-							$(r_cnt).empty();
-							$(r_cnt).html(compo.cust_mypage());
+							cust.init();
 						}else{
 							alert('로그인 실패'+d.customerID);
 						}
@@ -91,8 +103,118 @@ auth = (()=>{
 					}
 				});
 		};
-	let join =()=>{};
-	let register =()=>{};
-	let access =()=>{};
+	let join =()=>{
+			let data = {customerID:$('form input[name=uid]').val(),
+						password:$('form input[name=psw]').val(),
+						ssn:$('form input[name=ssn]').val(),
+						phone:$('form input[name=phone]').val(),
+						city:$('form input[name=city]').val(),
+						address:$('form input[name=address]').val(),
+						postalCode:$('form input[name=postalCode]').val(),
+						customerName:$('form input[name=customerName]').val()
+			};
+			$.ajax({
+				url:_+'/users/join',
+				data: JSON.stringify(data),
+				type: 'POST',
+				dataType: 'json',
+				contentType: "application/json",
+				success: d=>{
+					if(d.msg==='성공'){
+						alert('회원가입 성공 '+d.msg);
+						$(r_cnt).html(compo.cust_login_form());
+						 $('form button[type=submit]').click(e=>{
+				        	  e.preventDefault();
+				        	  login();
+				          });
+					}else{
+						alert('회원가입 실패');
+						$(r_cnt).html(compo.cust_form());
+						join();
+					}
+				},
+				error: e=>{
+					alert('회원가입 실패!');
+				}
+			});
+			
+	};
+	let delete_cust =()=>{
+		let data = {customerID:$('form input[name=customerID]').val(),
+					password:$('form input[name=password]').val()
+		}
+		$.ajax({
+			url: _+'/users/delete',
+			data: JSON.stringify(data),
+			type: 'DELETE',
+			dataType: 'json',
+			contentType: 'application/json',
+			success: d=>{
+				alert('탈퇴 성공');
+				$(r_cnt).html(compo.cust_login_form());
+			},
+			error: e=>{
+				alert('탈퇴 실패');
+			},
+		});
+};
+	let register =()=>{
+		let data = {employeeId:$('form input[name=employeeId]').val(),
+				manager:$('form input[name=manager]').val(),
+				name:$('form input[name=name]').val(),
+				birthDate:$('form input[name=birthDate]').val(),
+				photo:$('form input[name=photo]').val(),
+				notes:$('form input[name=notes]').val(),
+	};
+		$.ajax({
+			url:_+'/emp/register',
+			data: JSON.stringify(data),
+			type: 'POST',
+			dataType: 'json',
+			contentType: "application/json",
+			success: d=>{
+				if(d.msg==='성공'){
+					alert('회원가입 성공 '+d.msg);
+					$(r_cnt).html(compo.emp_access_form());
+					 $('form button[type=submit]').click(e=>{
+			        	  e.preventDefault();
+			        	  login();
+			          });
+				}else{
+					alert('회원가입 실패');
+					$(r_cnt).html(compo.emp_register_form());
+					join();
+				}
+			},
+			error: e=>{
+				alert('실패!');
+			}
+		});
+	
+	};
+	let access =()=>{
+		let data = {
+				employeeId:$('form input[name=employeeId]').val(),
+				name:$('form input[name=name]').val()};
+		$.ajax({
+			url : _+'/emp/access/'+data.employeeId,
+			type : 'POST', // @RequestBody 를 찾지 못하면 jackson 이 미설치된 것임
+			data : JSON.stringify(data),
+			dataType : 'json',
+			contentType : "application/json",
+			success : d=>{
+				if(d.customerID!==''){
+					alert('성공 '+d.employeeId);
+					$(r_cnt).html(compo.cust_mypage());
+				}else{
+					alert('로그인 실패');
+				}
+			},
+			error : e=>{
+				alert('직원 액세스실패');
+			}
+		});
+	};
+	
 	return {init:init};
 })();

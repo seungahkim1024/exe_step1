@@ -10,7 +10,7 @@ public class Customer {
 	private String customerID, 
 					customerName, 
 					password, 
-					ssn, 
+					ssn,
 					photo, 
 					phone, 
 					city, 
