@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bit_etland.web.cmm.IConsumer;
@@ -21,7 +20,6 @@ import com.bit_etland.web.cmm.PrintService;
 import com.bit_etland.web.cmm.Users;
 
 @RestController
-@RequestMapping("/users")
 public class CustController {
 	private static final Logger logger = LoggerFactory.getLogger(CustController.class);
 
@@ -31,9 +29,9 @@ public class CustController {
 	@Autowired Map<String, Object> map;
 	@Autowired Users<?> user;
 	
-	@PostMapping("/login")
-	public Map<String, Object> login(@RequestBody Customer param) { 
-		//Customer 앞에 @Response Body 디폴트(@RestController 때문에)
+	@PostMapping("/customers/{userid}")
+	public Map<String, Object> login(@RequestBody Customer param, @PathVariable String userid) { 
+		//Map<String, Object> 앞에 @Response Body 디폴트(@RestController 때문에)
 		logger.info("===== login진입 =====");
 		IFunction i = (Object o) -> custMap.selectCustomer(param);
 		i.apply(param);
@@ -42,7 +40,7 @@ public class CustController {
 		return map;
 	}	
 	
-	@PostMapping("/join")
+	@PostMapping("/customers")
 	public Map<?, ?> join(@RequestBody Customer param) {
 		logger.info("===== join진입 =====");
 		IConsumer c = new IConsumer() {
@@ -58,7 +56,7 @@ public class CustController {
 		return map;
 	}
 	
-	@PutMapping("/update/{userid}")
+	@PutMapping("/customers/{userid}")
 	public Map<?, ?> update(@PathVariable String userid, @RequestBody Customer param) {
 		logger.info("===== update진입 =====");
 		IConsumer i = (Object o) -> custMap.updateCustomer(param);
@@ -68,8 +66,8 @@ public class CustController {
 		return map;
 	}	
 	
-	@DeleteMapping("/delete")
-	public Map<?, ?> delete(@RequestBody Customer param) {
+	@DeleteMapping("/customers/{userid}")
+	public Map<?, ?> delete(@RequestBody Customer param, @PathVariable String userid) {
 		logger.info("===== delete진입 =====");
 		System.out.println("아이디: "+param);
 		IConsumer i = (Object o) -> custMap.deleteCustomer(param);
@@ -80,7 +78,7 @@ public class CustController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@GetMapping("/cust/list")
+	@GetMapping("/customers/list")
 	public List<Users<?>> list(@PathVariable String user, @RequestBody Map<?,?> param){
 		logger.info("===== list 진입 =====");
 		IFunction i = (Object o) -> custMap.selectCustomers(param);

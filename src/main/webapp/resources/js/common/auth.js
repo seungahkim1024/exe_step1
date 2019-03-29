@@ -34,6 +34,8 @@ auth = (()=>{
 				.appendTo(l_cnt+' ul.nav')
 				.click(function(){
 					let that = $(this).attr('name');
+					$(this).addClass('active');
+					$(this).siblings().removeClass('active');
 					switch(that){
 					case 'login': 
 						$(r_cnt).empty();
@@ -74,6 +76,7 @@ auth = (()=>{
 						break;
 					}
 				});
+				$(this).addClass('active');
 			});
 		})
 		.fail(()=>{
@@ -85,7 +88,7 @@ auth = (()=>{
 						customerID:$('form input[name=uname]').val(),
 						password:$('form input[name=psw]').val()};
 				$.ajax({
-					url : _+'/users/login',
+					url : _+'/customers/'+data.customerID,
 					type : 'POST', // @RequestBody 를 찾지 못하면 jackson 이 미설치된 것임
 					data : JSON.stringify(data),
 					dataType : 'json',
@@ -93,6 +96,7 @@ auth = (()=>{
 					success : d=>{
 						if(d.customerID!==''){
 							alert('성공 '+d.customerID);
+							$.getScript($.js()+'/customer/cust.js');
 							cust.init();
 						}else{
 							alert('로그인 실패'+d.customerID);
@@ -114,7 +118,7 @@ auth = (()=>{
 						customerName:$('form input[name=customerName]').val()
 			};
 			$.ajax({
-				url:_+'/users/join',
+				url:_+'/customers',
 				data: JSON.stringify(data),
 				type: 'POST',
 				dataType: 'json',
@@ -144,7 +148,7 @@ auth = (()=>{
 					password:$('form input[name=password]').val()
 		}
 		$.ajax({
-			url: _+'/users/delete',
+			url: _+'/customers/'+data.customerID,
 			data: JSON.stringify(data),
 			type: 'DELETE',
 			dataType: 'json',
