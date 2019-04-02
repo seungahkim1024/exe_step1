@@ -3,17 +3,30 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit_etland.web.cust.CustomerMapper">
+<resultMap id="result" type="hashmap">
+  <id property="customerID" column="CUSTOMER_ID" />
+  <result property="customerName" column="CUSTOMER_NAME"/>
+  <result property="password" column="PASSWORD"/>
+  <result property="ssn" column="SSN"/>
+  <result property="photo" column="PHOTO"/>
+  <result property="phone" column="PHONE"/>
+  <result property="city" column="CITY"/>
+  <result property="address" column="ADDRESS"/>
+  <result property="rownum" column="ROWNUM"/>
+  <result property="postalCode" column="POSTAL_CODE"/>
+</resultMap>
+
+
   <select id="selectCustomer" resultType="com.bit_etland.web.cust.Customer"> <!-- resultType은 리턴타입이 있을 때 준다. -->
-	SELECT
-		CUSTOMER_ID customerID,
-		PASSWORD password,
-		CUSTOMER_NAME customerName,
-		SSN ssn,
-		ADDRESS address,
-		CITY city,
-		POSTAL_CODE postalCode,
-		PHONE phone,
-		PHOTO photo
+	SELECT 
+	   CUSTOMER_ID customerID,
+	   CUSTOMER_NAME customerName,
+       PASSWORD,
+       SSN ,
+       PHONE,
+       CITY,
+       ADDRESS,
+       POSTAL_CODE postalCode
 	FROM CUSTOMERS
 	WHERE CUSTOMER_ID LIKE #{customerID}
 		<if test="password != null">
@@ -21,6 +34,14 @@
 		</if>
   </select>
   
+  <select id="selectCustomerList" resultMap="result"
+  									parameterType="com.bit_etland.web.cmm.Proxy"> <!-- resultType은 리턴타입이 있을 때 준다. -->
+	SELECT C.*, @ROWNUM := @ROWNUM + 1 AS ROWNUM
+	FROM CUSTOMERS C, (select @ROWNUM := 0) A
+	ORDER BY ROWNUM DESC
+	LIMIT #{startRow}, #{pageSize};
+  </select>
+
   <insert
 		  id="insertCustomer"
 		  parameterType="com.bit_etland.web.cust.Customer"
@@ -69,4 +90,5 @@
 			WHERE CUSTOMER_ID 
 			LIKE #{customerID}
   </delete>
+    
 </mapper>

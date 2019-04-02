@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit_etland.web.emp.EmployeeMapper">
+  <select id="findOneEmployee" resultType="com.bit_etland.web.emp.Employee"> <!-- resultType은 리턴타입이 있을 때 준다. -->
+	SELECT 
+		EMPLOYEE_ID employeeId,
+		MANAGER manager,
+		NAME name,
+		BIRTH_DATE birthDate,
+		PHOTO photo,
+		NOTES notes 
+	FROM EMPLOYEES
+  </select>
+  
+</mapper>

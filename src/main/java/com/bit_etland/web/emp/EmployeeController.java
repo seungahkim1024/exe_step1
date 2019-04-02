@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bit_etland.web.cmm.IConsumer;
 import com.bit_etland.web.cmm.IFunction;
+import com.bit_etland.web.cmm.ISupplier;
 import com.bit_etland.web.cmm.PrintService;
 import com.bit_etland.web.cmm.Users;
 
@@ -31,12 +32,12 @@ public class EmployeeController {
 		@Autowired Map<String, Object> map;
 		@Autowired Users<?> user;
 		
-		@PostMapping("/access/{userid}")
-		public Employee access(@PathVariable String userid, @RequestBody Employee param) { 
+		@GetMapping("/access")
+		public Employee access() { 
 			//Employee 앞에 @Response Body 디폴트(@RestController 때문에)
 			logger.info("===== access진입 =====");
-			IFunction i = (Object o) -> empMap.selectEmployee(param);
-			return (Employee)i.apply(param);
+			ISupplier i = () -> empMap.findOneEmployee();
+			return (Employee) i.get();
 		}	
 		
 		@PostMapping("/register")

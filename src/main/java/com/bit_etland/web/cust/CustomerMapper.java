@@ -5,10 +5,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.bit_etland.web.cmm.Proxy;
+
 @Repository
 public interface CustomerMapper {
 	public void insertCustomer(Customer cus);
-	public List<Customer> selectCustomerList(Map<?,?> m);
+	public List<?> selectCustomerList(Proxy pxy);
 	public List<Customer> selectCustomers(Map<?,?> m);
 	public Customer selectCustomer(Customer cus);
 	public int countCustomer(Map<?,?> m);	

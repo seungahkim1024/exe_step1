@@ -15,7 +15,6 @@ public class Customer {
 					phone, 
 					city, 
 					address, 
-					postalCode, 
-					no;
+					postalCode; 
 	
 }

@@ -1,7 +1,8 @@
 var auth = auth || {};
 auth = (()=>{
-    let _,js,compojs,r_cnt, l_cnt;
-	let init=()=>{
+    let _,js,compojs,r_cnt, l_cnt;	
+    let init=()=>{
+    	
 	    _ = $.ctx();
         js = $.js();
         compojs = js+'/component/compo.js';
@@ -62,8 +63,7 @@ auth = (()=>{
 						break;
 					case 'access':
 						$(r_cnt).empty();
-						$(compo.emp_access_form())
-						.appendTo(r_cnt);
+							 access();
 						break;
 					case 'delete':
 						$(r_cnt).empty();
@@ -197,27 +197,39 @@ auth = (()=>{
 	
 	};
 	let access =()=>{
-		let data = {
-				employeeId:$('form input[name=employeeId]').val(),
-				name:$('form input[name=name]').val()};
-		$.ajax({
-			url : _+'/emp/access/'+data.employeeId,
-			type : 'POST', // @RequestBody 를 찾지 못하면 jackson 이 미설치된 것임
-			data : JSON.stringify(data),
-			dataType : 'json',
-			contentType : "application/json",
-			success : d=>{
-				if(d.customerID!==''){
-					alert('성공 '+d.employeeId);
-					$(r_cnt).html(compo.cust_mypage());
+		let ok = confirm('관리자 입니까?');
+		if(ok){
+			let emp_no = prompt('사원번호 입력하세요'); //prompt ->입력창 뜨는 것
+			$.getJSON(_+'/emp/access',d=>{
+				alert('성공!');
+				if(emp_no===d.employeeId){
+					$(compo.emp_access_form())
+					.appendTo(r_cnt);
+					$('#namelabel')
+					.prepend('<label for="name"><b>name</b></label></br>'
+							+'<input type="text" placeholder="Enter name" id="name" value="박효신" required>');
+					$('#access_btn').click(e=>{
+						 e.preventDefault();
+						 $.getScript($.js()+'/customer/cust.js',()=>{
+							 cust.list();
+						 })
+					/*	 if($('#name')===d.name){
+							 alert('통과!');
+							 // 고	객 명단
+							 $.getScript($.js()+'/customer/cust.js',()=>{
+								 cust.list();
+							 })
+						 }*/
+					});
 				}else{
-					alert('로그인 실패');
+					alert('사원번호가 일치하지 않습니다.');
 				}
-			},
-			error : e=>{
-				alert('직원 액세스실패');
-			}
-		});
+				});
+		}else{
+			//사원 전용 페이지 입니다
+			//되돌아가기 버튼이 보인다.
+		}
+		
 	};
 	
 	return {init:init};
