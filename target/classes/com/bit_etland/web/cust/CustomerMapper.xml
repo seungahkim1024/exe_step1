@@ -35,11 +35,15 @@
   </select>
   
   <select id="selectCustomerList" resultMap="result"
-  									parameterType="com.bit_etland.web.cmm.Proxy"> <!-- resultType은 리턴타입이 있을 때 준다. -->
+  								  parameterType="com.bit_etland.web.cmm.Proxy"> <!-- resultType은 리턴타입이 있을 때 준다. -->
 	SELECT C.*, @ROWNUM := @ROWNUM + 1 AS ROWNUM
 	FROM CUSTOMERS C, (select @ROWNUM := 0) A
 	ORDER BY ROWNUM DESC
 	LIMIT #{startRow}, #{pageSize};
+  </select>
+  
+  <select id="countAllCustomer" resultType="int"> <!-- resultType은 리턴타입이 있을 때 준다. -->
+	SELECT COUNT(*) FROM CUSTOMERS;
   </select>
 
   <insert

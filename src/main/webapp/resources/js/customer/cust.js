@@ -1,7 +1,7 @@
 var cust = cust || {}
 cust = (()=>{
 	
-	let setpath=x=>{
+	let setpath=()=>{
 		_ = $.ctx();
         js = $.js();
         compojs = js+'/component/compo.js';
@@ -60,10 +60,10 @@ cust = (()=>{
 			});
 		});
 	};
-	let list = ()=>{
+	let list = x =>{
 		alert('리스트!');
 		setpath();
-		$.getJSON(_+'/cust/page/{page}', d=>{
+		$.getJSON(_+'/cust/page/'+x, d=>{
 			alert('성공!');
 			  $(r_cnt).empty();
 			  $(compo.cust_list()).appendTo(r_cnt);
@@ -84,27 +84,44 @@ cust = (()=>{
 			  $('<div id="sa_list" style="height: 50px"></div>')
 			  .appendTo('#cust_tab');
 			  html = '<div class="pagination" >';
+			  
 			  if(d.pxy.existPrev){
-				  html += '<a href="${ctx}/customer.do?cmd=cus_list&page=list&page_num='+d.pxy.prevBlock+'">&laquo;</a>';
+				  $('<a>&laquo;</a>')
+				  .appendTo('#sa_list')
+				  .click(function(){
+					  list(d.pxy.prevBlock);
+				  });
 			  }
-			  for(let i=d.pxy.startPage; i<d.pxy.endpage; i++){
+			  let i=0;
+			  for(i=d.pxy.startPage; i<=d.pxy.endPage; i++){
 				  if(d.pxy.pageNum === i){
-					  html += '<a href="#" class="page active">'+i+'</a>'
+					  $('<a class="page active">'+i+'</a>')
+					  
+					  .appendTo('#sa_list')
+					  .click(function(){
+						    list($(this).text());
+					  })
 				  }else{
-					  html += '<a href="#" class="page">'+i+'</a>'
+					  $('<a class="page">'+i+'</a>')
+					   .appendTo('#sa_list')
+					   
+					   .click(function(){
+						    list($(this).text());
+					   })
 				  }
 			  }
 			  if(d.pxy.existNext){
-				  html += '<a href="${ctx}/customer.do?cmd=cus_list&page=list&page_num='+d.pxy.nextBlock+'">&raquo;</a>';
+				  $('<a>&raquo;</a>')
+				  .appendTo('#sa_list')
+				  .click(function(){
+					  list(d.pxy.nextBlock);
+				  })
 			  }
-			  $(html).appendTo('#sa_list');
-			  
 				  $.getScript(js+'/employee/emp.js', ()=>{
 					  emp.empNavi();
-					 })
-			
-		});
-	};
+				  })
+		}); //getJSON
+	}; //let list()
 	return {init : init, list : list}
 })();
 

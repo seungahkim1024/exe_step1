@@ -27,7 +27,7 @@ public class Proxy {
 	     blockSize = (_blockSize == null) ? 5 : Integer.parseInt(_blockSize);
 	     System.out.println("블록사이즈: "+blockSize);
 	     
-	     rowCount = Integer.parseInt((String)paramMap.get("rowCount"));
+	     rowCount = (int)paramMap.get("rowCount");
 	     
 	     int nmg = rowCount % pageSize;
 	     int pageCount = (nmg == 0)?rowCount / pageSize:rowCount / pageSize+1;
@@ -43,25 +43,25 @@ public class Proxy {
 			int blockNum = (pageNum-1)/blockSize;
 			if(existPrev) {
 				startPage = blockNum*blockSize+1;
-				
 			}else {
 				startPage = 1;
 			}
+			
 			endPage = startPage+(blockSize-1);
-			// 김이레의 매쓰함수 방식
-			endPage = (int)(Math.ceil(pageNum / (double) blockSize) * blockSize);
-			startPage = (endPage - blockSize) + 1;
-			// 김승아의 얼추이해한 방식
 			startPage = pageNum -((pageNum-1)%blockSize);
 			endPage = startPage+(blockSize-1);
 			// 위 세조건 모두 공통
 			if(endPage>pageCount) {
 				endPage = pageCount;
 			}
-			
-			existPrev = (startPage - pageSize) > 0;
-			existNext = (startPage + pageSize) >= pageCount;
-			prevBlock = startPage - pageSize; 
-			nextBlock = startPage + pageSize;
+
+	        existPrev = (startPage - pageSize) > 0;
+	        existNext = (startPage + pageSize) <= pageCount;
+	        prevBlock = startPage - pageSize;
+	        nextBlock = startPage + pageSize;
+	        System.out.println("스타트페이지: " + startPage);
+	        System.out.println("엔드페이지: " + endPage);
+	        System.out.println("프리브블록: " + prevBlock);
+	        System.out.println("넥스트블록: " + nextBlock);
 		}
 }

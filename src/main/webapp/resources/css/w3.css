@@ -76,6 +76,19 @@ span.psw {
 #cust_tab tr:nth-child(even) {
  background-color: #dddddd;
 }
+#prod_tab {
+ font-family: arial, sans-serif;
+ border-collapse: collapse;
+ width: 100%;
+}
+#prod_tab td, th {
+ border: 1px solid #dddddd;
+ text-align: left;
+ padding: 8px;
+}
+#prod_tab tr:nth-child(even) {
+ background-color: #dddddd;
+}
 .center {
  text-align: center;
 }
@@ -92,9 +105,9 @@ span.psw {
  margin: 0 4px;
 }
 .pagination a.active {
- background-color: #4CAF50;
+ background-color: #e9b9ff;
  color: white;
- border: 1px solid #4CAF50;
+ border: 1px solid #ddd;
 }
 .pagination a:hover:not(.active) {
    background-color: #ddd;
@@ -125,3 +138,5 @@ span.psw {
    grid-column-start: 1;
    grid-column-end: 5;
 }
+
+

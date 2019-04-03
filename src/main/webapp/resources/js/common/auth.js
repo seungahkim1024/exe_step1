@@ -211,7 +211,7 @@ auth = (()=>{
 					$('#access_btn').click(e=>{
 						 e.preventDefault();
 						 $.getScript($.js()+'/customer/cust.js',()=>{
-							 cust.list();
+							 cust.list(1);
 						 })
 					/*	 if($('#name')===d.name){
 							 alert('통과!');

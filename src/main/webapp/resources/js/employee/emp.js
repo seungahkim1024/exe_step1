@@ -46,10 +46,14 @@ emp =(()=>{
 				case 'prod_post': 
 					$('#left_content h4').html('<h1>'+arr[1].val+'</h1>');
 					$(r_cnt).empty();
-					$(r_cnt).html(compo.prod_register())
+					$(r_cnt).html(compo.prod_register());
 					break;
-				case 'prod_list': 
+				case 'prod_list':
 					$('#left_content h4').html('<h1>'+arr[2].val+'</h1>');
+					$(r_cnt).empty();
+					$.getScript($.js()+'/prod/prod.js',()=>{
+						prod.post(1)});
+					
 					break;
 				case 'prod_update': 
 					$('#left_content h4').html('<h1>'+arr[3].val+'</h1>');
