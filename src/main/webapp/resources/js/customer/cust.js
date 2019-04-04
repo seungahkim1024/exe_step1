@@ -10,9 +10,8 @@ cust = (()=>{
         l_cnt = '#left_content';
 	}
 	
-	let init =(x)=>{
-			
-		onCreate(x);
+	let init =()=>{
+		onCreate();
 	};
 	let onCreate =()=>{
 		setContentView();
@@ -22,6 +21,7 @@ cust = (()=>{
 	};
 	
 	let mypage =()=>{
+		setpath();
 		$.getScript(compojs,()=>{
 			$(r_cnt).html(compo.cust_mypage());
 			
@@ -58,8 +58,24 @@ cust = (()=>{
 				});
 				$(this).addClass('active');
 			});
+			$('#srch_btn').on('click', ()=>{
+				search(1);
+			});
 		});
 	};
+	let search=(x)=>{
+		let data = $('#srch').val();
+		if($.fn.nullChecker([data])){
+			alert('빈칸 쳌쳌');
+		}else{
+		$.getJSON(_+'/phones/'+x+'/'+$('#srch').val(), d=>{
+				alert('서치 진입!');
+				$(r_cnt).empty();
+				$(compo.prod_list()).appendTo(r_cnt);
+			});
+		}
+	};
+	
 	let list = x =>{
 		alert('리스트!');
 		setpath();
@@ -122,7 +138,7 @@ cust = (()=>{
 				  })
 		}); //getJSON
 	}; //let list()
-	return {init : init, list : list}
+	return {init : init, list : list, setpath:setpath}
 })();
 
  

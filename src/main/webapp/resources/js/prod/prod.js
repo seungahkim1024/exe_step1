@@ -1,3 +1,4 @@
+"use strict";
 var prod = prod || {}
 prod= (()=>{
 	let setpath=()=>{
@@ -12,15 +13,58 @@ prod= (()=>{
 		onCreate();
 	};
 	let onCreate=()=>{
-		setContentView
+		setContentView();
 	};
 	let setContentView=()=>{
 		
 	};
-	let post= x =>{
+	let post=()=>{
+		//$(r_cnt).html(compojs.prod_register());
+		$('#prd_post_btn').click(e=>{
+			e.preventDefault();
+			let freebies = [];
+			$(".checks:checked").each(function(i){ // : -> 이벤트가 걸렸다는 뜻. v체크 된 애들만 룹 돌려서 검색해봐!라는 뜻
+				freebies.push($(this).val());
+			});
+			
+			let pname = $('#product_name').val();
+			let price = $('#price').val();
+			let comment = $('#comment').val();
+			if($.fn.nullChecker([pname, price, comment])){
+				alert('빈칸 쳌쳌');
+			}else{
+				alert('else임');
+			}
+					
+			
+			let data = {categoryId:$('#category_id option:selected').val(),
+						productName:$('#product_name').val(),
+						price:$('#price').val(),
+						unit:$('#unit').val(),
+						supplierId:$('#supplier_id').val(),
+						color:$('input[name=color]:checked').val(),
+						freebies:freebies,
+						comment:$('#comment').text()}; /*라디오에 클래스부여함*/
+			$.ajax({
+				url:_+'/phones',
+				data : JSON.stringify(data),
+				type : 'post',
+				dataType:'json',
+				contentType:'application/json',
+				success:d=>{
+					alert('성공');
+					list(1);
+				},
+				error:e=>{
+					alert('에러');
+				}
+			}) /*ajax 끝*/
+		});
+	};
+	let get=x=>{
 		setpath();
 		alert('프로덕트 리스트 성공!');
-		$.getJSON(_+'/prod/page/'+x, d=>{
+		$.getJSON(_+'/phones/'+x, d=>{
 			$(r_cnt).empty();
 			$(compo.prod_list()).appendTo(r_cnt);
 			$.each(d.prodList, (i,j)=>{
@@ -41,22 +85,22 @@ prod= (()=>{
 				  $('<a>&laquo;</a>')
 				  .appendTo('#prod_list')
 				  .click(function(){
-					  post(d.pxy.prevBlock);
+					  get(d.pxy.prevBlock);
 				  });
 			  }
-			  let i=0;
+			  let i=0; //for 안에 let을 넣으면 for문이 돌때마다 let이 생성되서 밖에 빼주는게 낫다.
 			  for(i=d.pxy.startPage; i<=d.pxy.endPage; i++){
 				  if(d.pxy.pageNum === i){
 					  $('<a class="page active">'+i+'</a>')
 					  .appendTo('#prod_list')
 					  .click(function(){
-						  post($(this).text());
+						  get($(this).text());
 					  })
 				  }else{
 					  $('<a class="page">'+i+'</a>')
 					   .appendTo('#prod_list')
 					   .click(function(){
-						   post($(this).text());
+						   get($(this).text());
 					   })
 				  }
 			  }
@@ -64,12 +108,10 @@ prod= (()=>{
 				  $('<a>&raquo;</a>')
 				  .appendTo('#prod_list')
 				  .click(function(){
-					  post(d.pxy.nextBlock);
+					  get(d.pxy.nextBlock);
 				  })
 			  }
 		});
-	};
-	let get=()=>{
 		
 	};
 	let put=()=>{
@@ -78,5 +120,5 @@ prod= (()=>{
 	let del=()=>{
 		
 	};
-	return {init : init, post:post}
+	return {init : init, post:post, get:get}
 })();

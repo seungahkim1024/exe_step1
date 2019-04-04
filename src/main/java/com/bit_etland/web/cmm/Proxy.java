@@ -12,6 +12,7 @@ public class Proxy {
 	  private int pageNum, pageSize, blockSize,
       startRow,endRow,startPage,endPage,
       prevBlock, nextBlock,rowCount;
+	  private String val;
 	  private boolean existPrev, existNext;
 	  
 	  public void carryOut(Map<?,?> paramMap) {

@@ -13,14 +13,13 @@ emp =(()=>{
 		onCreate();
 	};
 	let onCreate=()=>{
-		
 		setContentView();
+		
 	};
 	let setContentView=()=>{
 		
 	};
 	let empNavi=()=>{
-		
 		let arr=[
 			{val: '고객 목록', name: 'cust_list'},
 			{val: '상품 등록', name: 'prod_post'},
@@ -45,15 +44,14 @@ emp =(()=>{
 					break;
 				case 'prod_post': 
 					$('#left_content h4').html('<h1>'+arr[1].val+'</h1>');
-					$(r_cnt).empty();
 					$(r_cnt).html(compo.prod_register());
+			        prod.post();
 					break;
 				case 'prod_list':
 					$('#left_content h4').html('<h1>'+arr[2].val+'</h1>');
 					$(r_cnt).empty();
 					$.getScript($.js()+'/prod/prod.js',()=>{
-						prod.post(1)});
-					
+						prod.get(1)});
 					break;
 				case 'prod_update': 
 					$('#left_content h4').html('<h1>'+arr[3].val+'</h1>');
@@ -68,8 +66,26 @@ emp =(()=>{
 			});
 			$(this).addClass('active');
 		})
+		
+		$('#srch_btn').on('click', ()=>{
+			alert('test!');
+			/*$.ajax({
+				url:_+'/phones/'+x,
+				data:JSON.stringify({productName:$('#srch').val()}),
+				type: 'GET',
+				dataType: 'json',
+				contentType: 'application/json',
+				success: d=>{
+					alert('서치성공');
+					$(r_cnt).html(compo.prod_list());
+				},
+				error: e=>{
+					alert('서치실패');
+				}
+			});*/
+		});
 	
 	};
 	
-	return {init:init, empNavi:empNavi, setpath}
+	return {init:init, empNavi:empNavi, setpath:setpath}
 })();
