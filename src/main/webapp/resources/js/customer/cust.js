@@ -26,6 +26,7 @@ cust = (()=>{
 			$(r_cnt).html(compo.cust_mypage());
 			
 			$(l_cnt+' ul.nav').empty();
+			$('#srch_grp').show();
 			let arr=[
 				{navi:'마이페이지', name:'mypage'},
 				{navi:'쇼핑몰', name:'shopping'},
@@ -68,13 +69,43 @@ cust = (()=>{
 		if($.fn.nullChecker([data])){
 			alert('빈칸 쳌쳌');
 		}else{
-		$.getJSON(_+'/phones/'+x+'/'+$('#srch').val(), d=>{
+		$.getJSON(_+'/phones/'+$('#srch').val()+'/'+x, d=>{
 				alert('서치 진입!');
 				$(r_cnt).empty();
-				$(compo.prod_list()).appendTo(r_cnt);
-			});
-		}
-	};
+				$(compo.prod_search_list()).appendTo(r_cnt);
+				  $.each(d.prodList,(i,j)=>{    
+		                 $('#prod_search_tab').append('<tr>'
+		                    +'<td>'+j.rownum+'</td>'
+		                    +'<td>'+j.productName+'</td>'
+		                    +'<td>'+j.supplierId+'</td>'
+		                    +'<td>'+j.unit+'</td>'
+		                    +'<td>'+j.price+'</td>'
+		                    +'</tr>');
+		            });
+				  $('#grind_btn').click(()=>{
+					  $('#content_2').empty();
+					  let url = _+'/phones/'+$('#srch').val()+'/grid'+x
+					  $.getJSON(url, d=>{
+						  let i=0;
+						  $('<div id="gid />').appendTo('#content_2');
+							  $.each(d.prodList,(x,y)=>{
+						           $('<div class="col-md-4">'
+						              +'<div class="thumbnail">'
+						               +'<a href="#" target="_blank">'
+						                +'<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRanydDprvV35nlbHP2RwvjdyPrYgOgjevy7W_efJ2tTEVZvKKF" alt="Lights" style="width:100%">'
+						                 +'<div class="caption">'
+						                  +'<p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>'
+						                 +'</div>'
+						               +'</a>'
+						              +'</div>'
+						             +'</div>').appendTo('#grid')
+						       })
+					  });
+					  $('#grind_btn').text('리스트 보기');
+				  }); 
+			});//getjson
+		} //else
+	}; //let
 	
 	let list = x =>{
 		alert('리스트!');
@@ -138,6 +169,8 @@ cust = (()=>{
 				  })
 		}); //getJSON
 	}; //let list()
+	
+	
 	return {init : init, list : list, setpath:setpath}
 })();
 

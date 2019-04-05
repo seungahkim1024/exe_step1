@@ -50,4 +50,15 @@
 		<constructor-arg ref="sqlSessionFactoryBean"/>
 	</bean>
 	<mybatis-spring:scan base-package="com.bit_etland.web"/>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+                <property name="maxUploadSize" value="10000000" />
+                <property name="defaultEncoding" value="utf-8"></property>
+        </bean>
+    <bean id="uploadPath" class="java.lang.String">
+        <constructor-arg value="C:||Users||hb1003||egov_workspace||eGovFrameDev-3.8.0-64bit||workspace||bit_etland||src||main||webapp||resources||img||"/>
+         
+   			 <!-- <constructor-arg value="//usr//local//tomcat9//webapps//ROOT//resources//img"/> -->
+    </bean>
+	
 </beans>

@@ -360,7 +360,7 @@ compo = {
 	prod_register : ()=>{
 		return '<div class="col-md-8 order-md-1">'
         +'<h4 class="mb-3">상품 등록</h4>'
-        +'<form id="frm" class="needs-validation" novalidate="">'
+        +'<div id="frm" class="needs-validation" novalidate="">'
         +'<div class="row">'
         +'<div class="col-md-5 mb-3">'
           +'<label for="country">카테고리</label>'
@@ -422,7 +422,6 @@ compo = {
           +'  <label class="custom-control-label" for="same-address">휴대폰케이스</label>'
           +'</div>'
           
-          
           +'<hr class="mb-4">'
           +'<h4 class="mb-3">색상을 선택해 주세요.</h4>'
           +'<div class="d-block my-3">'
@@ -439,8 +438,7 @@ compo = {
               +'<label class="radi custom-control-label" for="paypal">블루</label>'
             +'</div>'
           +'</div>'
-          
-          
+
           +'<hr class="mb-4">'
           +'<div class="row">'
             +'<div class="col-md-6 mb-3">'
@@ -458,21 +456,27 @@ compo = {
           +'<hr class="mb-4">'
           +'<div class="row">'
             +'<div class="col-md-5 mb-5">'
+            +'<form id="img_upload_frm" encType="multipart/form-data">'
               +'<label for="cc-expiration">이미지 등록(파일 업로드)</label>'
               +'<input type="file" class="form-control" id="cc-expiration" placeholder="" required="">'
               +'<div class="invalid-feedback">'
               +'</div>'
+              +'<input type="submit" id="img_upload_btn">'
+              +'</form>'
             +'</div>'
             +'<div class="col-md-5 mb-5">'
+            +'<form id="img_drag_frm" encType="multipart/form-data">'
               +'<label for="cc-cvv">이미지 등록(드레그&드랍)</label>'
               +'<input type="file" class="form-control" id="cc-cvv" placeholder="" required="">'
               +'<div class="invalid-feedback">'
               +'</div>'
+              +'<input type="submit" id="img_drag_btn">'
+              +'</form>'
             +'</div>'
           +'</div>'
           +'<hr class="mb-4">'
           +'<button id="prd_post_btn" class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>'
-        +'</form>'
+        +'</div>'
       +'</div>'
 	},
 	prod_list: ()=>{
@@ -493,5 +497,25 @@ compo = {
 	             +'</tr>'
 	           +'</table>'
 	    +'</div>'
+	},
+	prod_search_list: ()=>{
+		return '<div class="grid-item" id="content_1">'
+        +'<h1><font style="font-size: 30px">스마트폰 리스트</font>'
+        +'</h1>'
+        +'<button id="grind_btn">그리드로 보기</button>'
+        +'</div>'
+        +'<div class="grid-item" id="content_2">'
+	           +'<table id="prod_search_tab">'
+	             +'<tr>'
+	               +'<th>PRODUCT_ID</th>'
+	               +'<th>상품명</th>'
+	               +'<th>공급업체</th>'
+	               +'<th>카테고리ID</th>'
+	               +'<th>수량</th>'
+	               +'<th>가격</th>'
+	             +'</tr>'
+	           +'</table>'
+	    +'</div>'
 	}
+	
 }

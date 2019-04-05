@@ -19,7 +19,6 @@ prod= (()=>{
 		
 	};
 	let post=()=>{
-		//$(r_cnt).html(compojs.prod_register());
 		$('#prd_post_btn').click(e=>{
 			e.preventDefault();
 			let freebies = [];
@@ -27,16 +26,14 @@ prod= (()=>{
 				freebies.push($(this).val());
 			});
 			
-			let pname = $('#product_name').val();
+			/*let pname = $('#product_name').val();
 			let price = $('#price').val();
 			let comment = $('#comment').val();
 			if($.fn.nullChecker([pname, price, comment])){
 				alert('빈칸 쳌쳌');
 			}else{
 				alert('else임');
-			}
-					
-			
+			}*/
 			let data = {categoryId:$('#category_id option:selected').val(),
 						productName:$('#product_name').val(),
 						price:$('#price').val(),
@@ -59,6 +56,30 @@ prod= (()=>{
 					alert('에러');
 				}
 			}) /*ajax 끝*/
+		});
+		$('#img_upload_btn').click(function(){
+			let ok = (this.files[0].name.match(/jpg|gif|png|jpeg/i)) ? true : false;
+			if(ok){
+				/*let fd = new FormData();
+				fd.append('file', this.files[0]);*/
+				$('#img_upload_frm').attr('action',$ctx()+'/phones/files');
+				$.ajax({
+					url: $('#img_upload_frm').attr('action'),
+					dataType : 'text',
+					enctype : 'multipat/form-data',
+					beforeSubmit: function(){},
+					processData : false,
+					success: d=>{
+						alert('파일 업로드 성공');
+					},
+					error: e=>{
+						alert('파일 업로드 실패');
+					}
+				});
+			}else{
+				alert('gif, png, jpg, jpeg 파일만 업로드 할 수 있습니다.');
+			}
+		
 		});
 	};
 	let get=x=>{

@@ -22,6 +22,7 @@ auth = (()=>{
 	          });
 	          
 			$(l_cnt+' ul.nav').empty();
+			$('#srch_grp').hide();
 			let arr=[
 				{navi : '로그인', name : 'login'},
 				{navi : '회원가입', name : 'join'},

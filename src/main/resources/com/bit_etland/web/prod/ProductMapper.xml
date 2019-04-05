@@ -4,13 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit_etland.web.prod.ProductMapper">
 <resultMap id="result" type="hashmap">
+  <id property="rownum" column="ROWNUM" />
   <id property="productId" column="PRODUCT_ID" />
   <result property="productName" column="PRODUCT_NAME"/>
   <result property="supplierId" column="SUPPLIER_ID"/>
   <result property="unit" column="UNIT"/>
   <result property="price" column="PRICE"/>
-  <result property="categoryId" column="CATEGORY_ID"/>
-  <result property="photo" column="PHOTO"/>
 </resultMap>
 
 <select id="countAllProduct" resultType="int"> <!-- resultType은 리턴타입이 있을 때 준다. -->
@@ -47,32 +46,27 @@
 	       	#{photo})
 </insert>	
 	
-<select id="selectProducts" 
-  		  resultMap="result"
-  		  parameterType="com.bit_etland.web.prod.Product">
-  	SELECT * 
-	FROM PRODUCTS
-	WHERE PRODUCT_NAME LIKE #{%productName}; 
-</select>
-<select id="retrieveProducts" resultType="com.bit_etland.web.prod.Product" 
+<select id="selectProducts" resultType="com.bit_etland.web.prod.Product" 
 	parameterType="com.bit_etland.web.cmm.Proxy">
 	SELECT @ROWNUM:=@ROWNUM+1 COLOR,P.PRODUCT_NAME productName
 			,S.SUPPLIER_NAME supplierID,P.UNIT,P.PRICE
 	FROM PRODUCTS P JOIN SUPPLIERS S ON P.SUPPLIER_ID LIKE S.SUPPLIER_ID ,(SELECT @ROWNUM:=0)TMP
-	WHERE P.PRODUCT_NAME LIKE #{search} 
-		OR S.SUPPLIER_NAME LIKE #{search} 
-		OR S.ADDRESS LIKE #{search}
-		OR S.CITY LIKE #{search}
+	WHERE P.PRODUCT_NAME LIKE '%${search}%' 
+		OR S.SUPPLIER_NAME LIKE '%${search}%' 
+		OR S.ADDRESS LIKE '%${search}%'
+		OR S.CITY LIKE '%${search}%'
 	limit #{startRow}, #{pageSize}
 	</select>
+	
 	<select id="countSearchProduct" resultType="int" parameterType="string">
 	SELECT COUNT(*)
 	FROM PRODUCTS P JOIN SUPPLIERS S ON P.SUPPLIER_ID LIKE S.SUPPLIER_ID
-	WHERE P.PRODUCT_NAME LIKE #{value} 
-		OR S.SUPPLIER_NAME LIKE #{value} 
-		OR S.ADDRESS LIKE #{value}
-		OR S.CITY LIKE #{value}
+	WHERE P.PRODUCT_NAME LIKE '%${value}%' 
+		OR S.SUPPLIER_NAME LIKE '%${value}%' 
+		OR S.ADDRESS LIKE '%${value}%'
+		OR S.CITY LIKE '%${value}%'
 	</select>
+	
 	<select id="countProduct" resultType="Integer">
 	SELECT COUNT(*)
 	FROM PRODUCTS
